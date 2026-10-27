@@ -19,3 +19,7 @@ test("super admin has no tenant session; manages tenants from /admin only", () =
 test("own tenant past grace is blocked", () => {
   expect(tenantAccess({ tenantId: "a", role: "owner" }, { ...tenantA, paidUntil: "2026-10-01" }, today)).toBe("blocked");
 });
+
+test("disabled staff are locked out of their own tenant", () => {
+  expect(tenantAccess({ tenantId: "a", role: "cashier", disabled: true }, tenantA, today)).toBe("forbidden");
+});

@@ -127,3 +127,37 @@ export const saleSchema = z.object({
 });
 
 export type SaleInput = z.infer<typeof saleSchema>;
+
+const checkbox = z.preprocess((v) => v === "on" || v === "true" || v === true, z.boolean());
+const permFields = {
+  permProducts: checkbox,
+  permCategories: checkbox,
+  permTransactions: checkbox,
+  permUsers: checkbox,
+  permSettings: checkbox,
+};
+
+export const createStaffSchema = z.object({
+  name: z.string().trim().min(2, "Enter the name.").max(120),
+  username: usernameSchema,
+  password: passwordSchema,
+  role: z.enum(["manager", "cashier"]),
+  ...permFields,
+});
+
+export const updateStaffSchema = z.object({
+  role: z.enum(["manager", "cashier"]),
+  disabled: checkbox,
+  ...permFields,
+});
+
+export const resetPasswordSchema = z.object({ password: passwordSchema });
+
+export const settingsSchema = z.object({
+  address: z.string().trim().max(255),
+  phone: z.string().trim().max(20),
+  drugLicence: z.string().trim().max(80),
+  gstin: z.union([z.literal(""), gstinSchema]).transform((v) => v || null),
+  footer: z.string().trim().max(255),
+  defaultDiscountPct: z.coerce.number().min(0).max(100),
+});

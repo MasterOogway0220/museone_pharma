@@ -8,7 +8,7 @@ export const ROLE_PERMS: Record<Exclude<Role, "superadmin">, Perms> = {
   cashier: { permProducts: false, permCategories: false, permTransactions: false, permUsers: false, permSettings: false },
 };
 
-type Perms = {
+export type Perms = {
   permProducts: boolean;
   permCategories: boolean;
   permTransactions: boolean;
@@ -78,6 +78,7 @@ export function createStaffUser(input: {
   username: string;
   password: string;
   role: Exclude<Role, "superadmin">;
+  perms?: Perms;
 }) {
   return createUser({
     name: input.name,
@@ -86,6 +87,6 @@ export function createStaffUser(input: {
     password: input.password,
     tenantId: input.tenantId,
     role: input.role,
-    perms: ROLE_PERMS[input.role],
+    perms: input.perms ?? ROLE_PERMS[input.role],
   });
 }

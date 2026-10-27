@@ -36,6 +36,13 @@
       "when": 1793087347826,
       "tag": "0004_strange_turbo",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1793088390857,
+      "tag": "0005_silky_the_hood",
+      "breakpoints": true
     }
   ]
 }

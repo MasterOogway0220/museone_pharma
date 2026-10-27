@@ -31,10 +31,14 @@ export async function loginStaff(slug: string, _: LoginState, form: FormData): P
   const parsed = usernameSchema.safeParse(form.get("username"));
   if (!parsed.success) return { error: BAD_LOGIN };
   try {
-    await auth.api.signInUsername({
+    const res = await auth.api.signInUsername({
       body: { username: staffUsername(slug, parsed.data), password: String(form.get("password") ?? "") },
       headers: await headers(),
     });
+    if (res && "user" in res && (res.user as { disabled?: boolean }).disabled) {
+      await auth.api.signOut({ headers: await headers() });
+      return { error: BAD_LOGIN };
+    }
   } catch (e) {
     if (e instanceof APIError) return { error: BAD_LOGIN };
     throw e;

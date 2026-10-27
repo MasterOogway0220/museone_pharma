@@ -1,20 +1,40 @@
 import { formatINR, toPaise } from "@/lib/money";
-import type { CartProduct, SaleLine } from "@/lib/cart";
 import type { PosSettings } from "@/lib/pos";
-import type { SaleInput } from "@/lib/validation";
+
+
+export type ReceiptLine = {
+  name: string;
+  batch: string;
+  expiry: string | null;
+  hsn: string | null;
+  gstRate: number;
+  mrp: string;
+  qty: number;
+  netPaise: number;
+};
 
 export type PrintedBill = {
-  sale: SaleInput;
-  lines: (SaleLine & { netPaise: number })[];
+  invoiceNo: string;
+  soldAt: string;
+  customerName: string | null;
+  customerPhone: string | null;
+  doctorName: string | null;
+  patientName: string | null;
+  discountPct: number;
+  paymentMethod: string;
+  tendered: number | null;
+  lines: ReceiptLine[];
   totals: { grossPaise: number; netPaise: number; taxablePaise: number; cgstPaise: number; sgstPaise: number; roundOffPaise: number; payablePaise: number };
   cashier: string;
+  returned?: boolean;
 };
 
 const expiryShort = (d: string | null) => (d ? `${d.slice(5, 7)}/${d.slice(2, 4)}` : "");
 
 // 80 mm thermal receipt. Only visible when printing.
-export function Receipt({ bill, settings, products }: { bill: PrintedBill; settings: PosSettings; products: Map<string, CartProduct> }) {
-  const { sale, totals } = bill;
+export function Receipt({ bill, settings }: { bill: PrintedBill; settings: PosSettings }) {
+  const { totals } = bill;
+  const sale = bill;
   const change = sale.paymentMethod === "cash" && sale.tendered ? toPaise(sale.tendered) - totals.payablePaise : 0;
   return (
     <div className="receipt mx-auto w-[72mm] font-mono text-[11px] leading-tight text-black">
@@ -24,7 +44,7 @@ export function Receipt({ bill, settings, products }: { bill: PrintedBill; setti
         {settings.phone && <div>Ph: {settings.phone}</div>}
         {settings.gstin && <div>GSTIN: {settings.gstin}</div>}
         {settings.drugLicence && <div>DL No: {settings.drugLicence}</div>}
-        <div className="mt-1 font-semibold">TAX INVOICE</div>
+        <div className="mt-1 font-semibold">{bill.returned ? "RETURNED: CREDIT NOTE" : "TAX INVOICE"}</div>
       </div>
       <hr className="my-1 border-dashed border-black" />
       <div className="flex justify-between">
@@ -50,20 +70,19 @@ export function Receipt({ bill, settings, products }: { bill: PrintedBill; setti
         </thead>
         <tbody>
           {bill.lines.map((l, i) => {
-            const p = products.get(l.productId);
             return (
               <tr key={i} className="align-top">
                 <td>
-                  {p?.name}
+                  {l.name}
                   <div className="text-[10px]">
                     {l.batch && `B:${l.batch} `}
                     {l.expiry && `E:${expiryShort(l.expiry)} `}
-                    {p?.hsn && `HSN:${p.hsn} `}
-                    GST {p?.gstRate}%
+                    {l.hsn && `HSN:${l.hsn} `}
+                    GST {l.gstRate}%
                   </div>
                 </td>
                 <td className="text-right">{l.qty}</td>
-                <td className="text-right">{p ? Number(p.mrp).toFixed(2) : ""}</td>
+                <td className="text-right">{Number(l.mrp).toFixed(2)}</td>
                 <td className="text-right">{(l.netPaise / 100).toFixed(2)}</td>
               </tr>
             );

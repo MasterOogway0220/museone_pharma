@@ -21,6 +21,7 @@ export const auth = betterAuth({
       permTransactions: { type: "boolean", required: true, defaultValue: false, input: false },
       permUsers: { type: "boolean", required: true, defaultValue: false, input: false },
       permSettings: { type: "boolean", required: true, defaultValue: false, input: false },
+      disabled: { type: "boolean", required: true, defaultValue: false, input: false },
     },
   },
   plugins: [

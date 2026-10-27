@@ -118,8 +118,11 @@ export function Till({ slug }: { slug: string }) {
     await queueSale(slug, sale);
     void sync.refresh();
     setPrinted({
-      sale,
-      lines: lines.map((l, i) => ({ ...l, netPaise: priced.lines[i].netPaise })),
+      ...sale,
+      lines: lines.map((l, i) => {
+        const p = products.get(l.productId)!;
+        return { ...l, name: p.name, hsn: p.hsn, gstRate: p.gstRate, mrp: p.mrp, netPaise: priced.lines[i].netPaise };
+      }),
       totals: priced.totals,
       cashier: catalog.user.name,
     });
@@ -423,7 +426,7 @@ export function Till({ slug }: { slug: string }) {
 
       {printed && (
         <div className="hidden print:block">
-          <Receipt bill={printed} settings={catalog.settings} products={products} />
+          <Receipt bill={printed} settings={catalog.settings} />
         </div>
       )}
     </>

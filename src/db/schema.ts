@@ -75,6 +75,8 @@ export const user = mysqlTable("user", {
   permTransactions: boolean("perm_transactions").default(false).notNull(),
   permUsers: boolean("perm_users").default(false).notNull(),
   permSettings: boolean("perm_settings").default(false).notNull(),
+  // Staff who leave are disabled, not deleted: their past bills still point to them.
+  disabled: boolean("disabled").default(false).notNull(),
 });
 
 export const session = mysqlTable(
