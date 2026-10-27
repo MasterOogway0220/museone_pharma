@@ -1,0 +1,26 @@
+{
+  "name": "museone-pharma-desktop",
+  "productName": "MuseOne Pharma",
+  "version": "0.1.0",
+  "description": "MuseOne Pharma billing for Windows counters",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron-forge start",
+    "make": "electron-forge make",
+    "smoke": "electron . --smoke"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "8.0.1",
+    "@electron-forge/maker-squirrel": "8.0.1",
+    "@electron-forge/maker-zip": "8.0.1",
+    "electron": "45.0.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "allowScripts": {
+    "electron@45.0.0": true,
+    "electron-winstaller@5.4.4": true
+  }
+}

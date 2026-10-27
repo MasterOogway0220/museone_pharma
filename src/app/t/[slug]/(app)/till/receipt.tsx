@@ -63,9 +63,9 @@ export function Receipt({ bill, settings }: { bill: PrintedBill; settings: PosSe
         <thead>
           <tr className="text-left">
             <th className="font-semibold">Item</th>
-            <th className="text-right font-semibold">Qty</th>
-            <th className="text-right font-semibold">MRP</th>
-            <th className="text-right font-semibold">Amt</th>
+            <th className="pl-2 text-right font-semibold whitespace-nowrap">Qty</th>
+            <th className="pl-2 text-right font-semibold whitespace-nowrap">MRP</th>
+            <th className="pl-2 text-right font-semibold whitespace-nowrap">Amt</th>
           </tr>
         </thead>
         <tbody>
@@ -81,9 +81,9 @@ export function Receipt({ bill, settings }: { bill: PrintedBill; settings: PosSe
                     GST {l.gstRate}%
                   </div>
                 </td>
-                <td className="text-right">{l.qty}</td>
-                <td className="text-right">{Number(l.mrp).toFixed(2)}</td>
-                <td className="text-right">{(l.netPaise / 100).toFixed(2)}</td>
+                <td className="pl-2 text-right whitespace-nowrap">{l.qty}</td>
+                <td className="pl-2 text-right whitespace-nowrap">{Number(l.mrp).toFixed(2)}</td>
+                <td className="pl-2 text-right whitespace-nowrap">{(l.netPaise / 100).toFixed(2)}</td>
               </tr>
             );
           })}

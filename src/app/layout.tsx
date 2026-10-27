@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
+import { site } from "@/data/site";
 
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
@@ -15,6 +16,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  openGraph: { siteName: site.name, locale: "en_IN", type: "website" },
   title: { default: "MuseOne Pharma", template: "%s | MuseOne Pharma" },
   description: "Billing, stock and expiry tracking for pharmacies.",
 };

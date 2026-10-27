@@ -61,3 +61,38 @@ body {
     @apply mb-1 block text-sm font-medium;
   }
 }
+
+/* ---------- Public site ---------- */
+@layer components {
+  /* Primary call to action: nudges up on hover, presses in on click. */
+  .btn-cta {
+    @apply inline-flex items-center justify-center rounded-ui bg-brand px-6 py-3 text-base font-medium text-brand-foreground transition-transform duration-150 hover:-translate-y-px active:translate-y-px disabled:opacity-60;
+  }
+  .btn-cta:hover {
+    background: color-mix(in oklab, var(--brand) 88%, black);
+  }
+  .link-quiet {
+    @apply rounded-ui px-2 py-2 text-muted underline-offset-4 hover:text-foreground hover:underline;
+  }
+  .kbd {
+    @apply inline-block min-w-9 rounded-ui border border-b-2 border-border bg-surface px-2 py-1 text-center font-mono text-sm;
+  }
+}
+
+/* Hero receipt: feeds out of the printer slot once. */
+.receipt-feed {
+  animation: feed 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+@keyframes feed {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .receipt-feed {
+    animation: none;
+  }
+}

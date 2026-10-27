@@ -360,3 +360,15 @@ export const heldCarts = mysqlTable(
   },
   (t) => [index("held_carts_tenant_idx").on(t.tenantId)],
 );
+
+// Demo requests from the public site. Read by the super admin in /admin/leads.
+export const leads = mysqlTable("leads", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 120 }).notNull(),
+  pharmacy: varchar("pharmacy", { length: 120 }).notNull(),
+  phone: varchar("phone", { length: 10 }).notNull(),
+  area: varchar("area", { length: 80 }).notNull(),
+  counters: int("counters").notNull(),
+  message: varchar("message", { length: 500 }),
+  createdAt: timestamp("created_at", { fsp: 3 }).defaultNow().notNull(),
+});

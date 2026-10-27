@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from
 import { holdCart, listHeld, searchCustomers, takeHeld } from "../pos-actions";
 import { buildSaleLines, deductSold, inStock, needsPrescription, priceLines, type CartItem } from "@/lib/cart";
 import { formatINR, toPaise } from "@/lib/money";
+import { printReceipt } from "@/lib/print";
 import type { PosProduct, PosSettings } from "@/lib/pos";
 import { todayInIndia } from "@/lib/subscription";
 import { dismissRejected, getTill, loadCatalog, nextInvoiceNo, queueSale, saveCatalog, setTill } from "@/lib/till-store";
@@ -46,6 +47,8 @@ export function Till({ slug }: { slug: string }) {
   const refreshCatalog = useCallback(() => void fetchCatalog(slug).then(applyCatalog), [slug, applyCatalog]);
 
   useEffect(() => {
+    // Lets this page open offline (see public/sw.js).
+    navigator.serviceWorker?.register("/sw.js", { scope: "/", updateViaCache: "none" }).catch(() => {});
     fetchCatalog(slug).then(applyCatalog);
     ensureTill(slug).then(setTillCode);
   }, [slug, applyCatalog]);
@@ -134,7 +137,7 @@ export function Till({ slug }: { slug: string }) {
 
   // Print after the receipt for the new bill has rendered.
   useEffect(() => {
-    if (printed) window.print();
+    if (printed) printReceipt();
   }, [printed]);
 
   const openHeld = () =>

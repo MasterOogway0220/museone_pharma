@@ -161,3 +161,14 @@ export const settingsSchema = z.object({
   footer: z.string().trim().max(255),
   defaultDiscountPct: z.coerce.number().min(0).max(100),
 });
+
+export const leadSchema = z.object({
+  name: z.string().trim().min(2, "Enter your name.").max(120),
+  pharmacy: z.string().trim().min(2, "Enter your pharmacy's name.").max(120),
+  phone: phoneSchema,
+  area: z.string().trim().min(2, "Enter your area, e.g. Dadar.").max(80),
+  counters: z.coerce.number().int().min(1).max(20),
+  message: z.string().trim().max(500).transform((v) => v || null),
+  // Honeypot: real people never see or fill this field.
+  website: z.string().max(0).optional(),
+});

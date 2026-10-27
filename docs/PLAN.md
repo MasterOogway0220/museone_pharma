@@ -1,7 +1,7 @@
 # MuseOne Pharma — v1 Plan
 
 Rebuild of PharmaSpot (MIT, © Patterns Digital Limited — keep their notice in `LICENSE`) as a
-multi-tenant pharmacy POS SaaS. Status: **approved 2026-10-27**. Phase 0 and 1 done; next is Phase 2.
+multi-tenant pharmacy POS SaaS. Status: **approved 2026-10-27**. Phases 0 to 8 built. Open: desktop app smoke test (Electron download failed on the build machine), CSP, items marked confirm in src/data/site.ts.
 
 Market: India, starting with Mumbai. That means INR, GST (CGST + SGST inside Maharashtra, IGST
 across states), HSN codes on medicines, and batch + expiry on every sale.

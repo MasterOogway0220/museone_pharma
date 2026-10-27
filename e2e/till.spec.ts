@@ -116,3 +116,26 @@ test("offline: three bills are kept on the device and sync when back online", as
     await expect(page.getByRole("cell", { name: "27" })).toBeVisible({ timeout: 1000 });
   }).toPass({ timeout: 20_000 });
 });
+
+test("till page reopens with no internet and still bills", async ({ page, context }) => {
+  const slug = await ownerSession(page, "sw");
+  await addProduct(page, slug, { name: "Vicks Action 500", barcode: "8906666666666", price: "45", stock: "10" });
+  await openTill(page, slug);
+  // Wait until the service worker controls the page, then load once more so the page is cached.
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 15_000 });
+  await page.reload();
+  await expect(page.getByText(/Till A\d\d/)).toBeVisible();
+
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.getByText("Using product list saved")).toBeVisible();
+  await page.getByLabel("Scan barcode or search medicine").fill("8906666666666");
+  await page.getByLabel("Scan barcode or search medicine").press("Enter");
+  await page.getByRole("button", { name: "Pay (F9)" }).click();
+  await page.getByRole("button", { name: "Complete and print" }).click();
+  await expect(page.getByText("1 bill waiting to sync")).toBeVisible();
+
+  await context.setOffline(false);
+  await page.evaluate(() => window.dispatchEvent(new Event("online")));
+  await expect(page.getByText("waiting to sync")).toHaveCount(0, { timeout: 20_000 });
+});
