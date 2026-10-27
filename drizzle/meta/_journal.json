@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1793082993334,
+      "tag": "0000_lying_captain_cross",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1793083195452,
+      "tag": "0001_gigantic_sharon_ventura",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1793086886140,
+      "tag": "0002_serious_ender_wiggin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1793086990805,
+      "tag": "0003_careful_unus",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1793087347826,
+      "tag": "0004_strange_turbo",
+      "breakpoints": true
+    }
+  ]
+}

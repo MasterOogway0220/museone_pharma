@@ -1,0 +1,17 @@
+# Local development database only. Production uses a managed MySQL.
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: museone
+      MYSQL_USER: museone
+      MYSQL_PASSWORD: museone_dev
+      MYSQL_ROOT_PASSWORD: museone_root_dev
+    ports:
+      - "127.0.0.1:3318:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

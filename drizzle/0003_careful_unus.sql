@@ -1,0 +1,1 @@
+ALTER TABLE `products` MODIFY COLUMN `barcode` varchar(90) NOT NULL;
