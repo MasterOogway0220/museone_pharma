@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Electron shell: plain CommonJS, its own package.
     "desktop/**",
+    // Reference copy of the PharmaSpot app, not part of this build.
+    "PharmaSpot/**",
   ]),
 ]);
 
